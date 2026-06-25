@@ -73,7 +73,26 @@ const SignUpView = () => {
       },
     );
   };
+  const onSocial = (provider: "github" | "google") => {
+    setError(null);
+    setPending(true);
 
+    authClient.signIn.social(
+      {
+        provider: provider,
+        callbackURL: "/",
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
+        },
+        onError: ({ error }) => {
+          setPending(false);
+          setError(error.message);
+        },
+      },
+    );
+  };
   return (
     <div className="flex flex-col gap-6 ">
       <Card className="overflow-hidden p-0">
@@ -181,8 +200,8 @@ const SignUpView = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <Button
-                    // disabled={pending}
-                    // onClick={() => onSocial("google")}
+                    disabled={pending}
+                    onClick={() => onSocial("google")}
                     variant="outline"
                     type="button"
                     className="w-full"
@@ -190,8 +209,8 @@ const SignUpView = () => {
                     <FaGoogle />
                   </Button>
                   <Button
-                    // disabled={pending}
-                    // onClick={() => onSocial("github")}
+                    disabled={pending}
+                    onClick={() => onSocial("github")}
                     variant="outline"
                     type="button"
                     className="w-full"
@@ -211,7 +230,7 @@ const SignUpView = () => {
               </div>
             </form>
           </Form>
-          <div className="bg-radial from-green-700 to-green-900 relative hidden md:flex flex-col gap-y-4 items-center justify-center">
+          <div className="bg-radial from-red-700 to-red-900 relative hidden md:flex flex-col gap-y-4 items-center justify-center">
             <img src="/logo.svg" alt="Image" className="h-[92px] w-[92px]" />
             <p className="text-2xl font-semibold text-white">Eygent.AI</p>
           </div>
