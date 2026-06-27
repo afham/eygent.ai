@@ -3,7 +3,7 @@ import HomeView from "@/modules/home/ui/views/home-view";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
-
+import { caller } from "@/trpc/server";
 const page = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
